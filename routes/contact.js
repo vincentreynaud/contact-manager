@@ -1,6 +1,23 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.route('/')
+const {
+  listContacts,
+  addContact,
+  getContact,
+  updateContact,
+  deleteContact
+} = require("../controlers/contactController");
 
-exports.router = router
+router
+  .route("/")
+  .get(listContacts)
+  .post(addContact);
+
+router
+  .route("/:id")
+  .get(getContact)
+  .put(updateContact)
+  .delete(deleteContact);
+
+module.exports = router;

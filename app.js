@@ -1,15 +1,15 @@
-const express = require('express');
-const logger = require('morgan');
+const express = require("express");
+const logger = require("morgan");
 
-const indexRouter = require('./routes/index');
-const contactRouter = require('./routes/contact');
+const indexRouter = require("./routes/index");
+const contactRouter = require("./routes/contact");
 
 const app = express();
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 
-app.use('/', indexRouter);
-app.use('/contact', contactRouter);
+app.use("/", indexRouter);
+app.use("/contacts", contactRouter);
 
 module.exports = app;
