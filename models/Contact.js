@@ -14,10 +14,10 @@ const ContactSchema = new Schema({
     {
       type: {
         type: String,
-        enum: ["home", "work", "main", "other"]
+        enum: ["home", "mobile", "work", "main", "other"]
       },
       country_code: String,
-      number: Number
+      number: String
     }
   ],
   emails: [
