@@ -7,10 +7,7 @@ const ContactSchema = new Schema({
       type: String,
       required: true
     },
-    last_name: {
-      type: String,
-      required: true
-    },
+    last_name: String,
     company: String
   },
   phones: [
