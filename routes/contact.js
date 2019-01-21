@@ -7,7 +7,7 @@ const {
   getContact,
   updateContact,
   deleteContact
-} = require("../controlers/contactController");
+} = require("../controllers/contactController");
 
 router
   .route("/")
