@@ -14,7 +14,7 @@ const ContactSchema = new Schema({
     {
       type: {
         type: String,
-        enum: ["home", "mobile", "work", "main", "other"]
+        enum: ["home", "mobile", "work", "main", "other", "null"]
       },
       country_code: String,
       number: String
@@ -24,7 +24,7 @@ const ContactSchema = new Schema({
     {
       type: {
         type: String,
-        enum: ["home", "work", "other"]
+        enum: ["home", "work", "other", "null"]
       },
       address: String
     }
@@ -33,7 +33,7 @@ const ContactSchema = new Schema({
     {
       type: {
         type: String,
-        enum: ["home", "work", "other"]
+        enum: ["home", "work", "other", "null"]
       },
       street_one: String,
       street_two: String,
@@ -46,7 +46,7 @@ const ContactSchema = new Schema({
     {
       type: {
         type: String,
-        enum: ["website", "home", "work", "other"]
+        enum: ["website", "home", "work", "other", "null"]
       },
       url: String
     }
@@ -55,9 +55,9 @@ const ContactSchema = new Schema({
     {
       type: {
         type: String,
-        enum: ["facebook", "twitter", "linkedin", "flickr", "other"]
+        enum: ["facebook", "twitter", "linkedin", "flickr", "other", "null"]
       },
-      link: String
+      url: String
     }
   ]
 });

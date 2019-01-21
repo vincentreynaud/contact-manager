@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const faker = require("faker");
+faker.locale = "de";
 
 const Contact = require("../models/Contact");
 
@@ -24,13 +25,36 @@ async function seedContact() {
         phones: [
           {
             type: "mobile",
+            country_code: null,
             number: faker.phone.phoneNumberFormat(2)
           }
         ],
         emails: [
           {
             type: "home",
-            number: faker.internet.email()
+            address: faker.internet.email()
+          }
+        ],
+        addresses: [
+          {
+            type: "null",
+            street_one: null,
+            street_two: null,
+            zip: null,
+            city: null,
+            country: null
+          }
+        ],
+        url: [
+          {
+            type: "null",
+            url: null
+          }
+        ],
+        social_profile: [
+          {
+            type: "null",
+            url: null
           }
         ]
       });
