@@ -35,7 +35,8 @@ async function seedContact() {
         emails: [
           {
             type: faker.random.arrayElement(CONTACT_ENTRY_TYPE),
-            address: faker.internet.email(firstName, lastName)
+            address: faker.internet.email(firstName, lastName).toLowerCase()
+            // .toLowerCase as quick workaround as owercase: true in Schema only works with String types, not custom ones
           }
         ]
       });
