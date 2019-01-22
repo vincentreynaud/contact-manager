@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "debug": "DEBUG=contact-manager:* node --inspect ./bin/www",
-    "watch": "DEBUG=contact-manager:* nodemon --inspect ./bin/www"
+    "watch": "DEBUG=contact-manager:* nodemon --inspect ./bin/www",
+    "seed:contact": "node seed/seedContact"
   },
   "dependencies": {
     "debug": "~2.6.9",
@@ -14,6 +15,7 @@
     "morgan": "~1.9.0"
   },
   "devDependencies": {
+    "eslint": "^5.12.1",
     "faker": "^4.1.0",
     "nodemon": "^1.18.9"
   }
