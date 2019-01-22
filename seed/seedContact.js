@@ -15,7 +15,7 @@ async function seedContact() {
   await Contact.deleteMany({});
   console.log("contacts purged!");
 
-  const contactPromises = Array(15)
+  const contactPromises = Array(30)
     .fill(null)
     .map(() => {
       const firstName = faker.name.firstName();
