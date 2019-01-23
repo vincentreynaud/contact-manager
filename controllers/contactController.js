@@ -1,19 +1,32 @@
-exports.listContacts = (req, res) => {
-  res.send("list of all contacts");
+const Contact = require("../models/Contact");
+
+exports.listContacts = async (req, res) => {
+  res.json(await Contact.find());
 };
 
-exports.addContact = (req, res) => {
-  res.send("contact added");
+exports.addContact = async (req, res) => {
+  const contact = new Contact(req.body);
+  await contact.save();
+  res.json(contact);
 };
 
-exports.getContact = (req, res) => {
-  res.send("single contact");
+exports.getContact = async (req, res) => {
+  const { id } = req.params;
+  const contact = await Contact.findById(id);
+  res.json(contact);
 };
 
-exports.updateContact = (req, res) => {
-  res.send("contact updated");
+exports.updateContact = async (req, res) => {
+  const { id } = req.params;
+  const contact = await Contact.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true
+  });
+  res.json(contact);
 };
 
-exports.deleteContact = (req, res) => {
-  res.send("contact deleted");
+exports.deleteContact = async (req, res) => {
+  const { id } = req.params;
+  const contact = await Contact.findByIdAndDelete(id);
+  res.json(contact);
 };
