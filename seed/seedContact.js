@@ -10,10 +10,10 @@ async function seedContact() {
     "mongodb://localhost:27017/contact-manager",
     { useNewUrlParser: true }
   );
+  // eslint-disable-next-line no-console
   mongoose.connection.on("error", console.error);
 
   await Contact.deleteMany({});
-  console.log("contacts purged!");
 
   const contactPromises = Array(30)
     .fill(null)
@@ -45,6 +45,7 @@ async function seedContact() {
     });
 
   await Promise.all(contactPromises);
+  // eslint-disable-next-line no-console
   console.log("contacts seeded!");
 
   mongoose.connection.close();
