@@ -20,26 +20,27 @@ class Form extends Component {
   }
 
   handleNameChange = element => {
-    const name = element.current;
+    element = element.current;
+    const field = element.name;
 
-    if (name.value.length > 1) {
+    if (element.value.length > 1) {
       this.setState({
-        data: { firstName: name.value }, // only save the value if it is valid
-        validation: { firstName: true }
+        data: { [field]: element.value }, // only save the value if it is valid
+        validation: { [field]: true }
       });
 
-      name.classList.add("is-valid");
+      element.classList.add("is-valid");
 
-      if (this.state.validation.firstName === false) {
-        this.setState({ validation: { firstName: true } });
-        name.classList.remove("is-invalid"); // make it a toggle?
-        name.classList.add("is-valid");
+      if (this.state.validation[field] === false) {
+        this.setState({ validation: { [field]: true } });
+        element.classList.remove("is-invalid"); // make it a toggle?
+        element.classList.add("is-valid");
       }
     } else {
-      if (this.state.validation.firstName === true) {
-        this.setState({ validation: { firstName: false } });
-        name.classList.remove("is-valid");
-        name.classList.add("is-invalid");
+      if (this.state.validation[field] === true) {
+        this.setState({ validation: { [field]: false } });
+        element.classList.remove("is-valid");
+        element.classList.add("is-invalid");
       }
     }
   };
@@ -56,8 +57,9 @@ class Form extends Component {
           <label htmlFor="first_name">First name</label>
           <input
             type="text"
-            className="form-control"
             id="first_name"
+            name="first_name"
+            className="form-control"
             placeholder="Type First Name"
             ref={this.inputFirstName}
             onChange={() => {
@@ -73,14 +75,17 @@ class Form extends Component {
           <label htmlFor="last_name">Last name</label>
           <input
             type="text"
+            id="last_name"
+            name="last_name"
             className="form-control"
-            id="first_name"
             placeholder="Type Last Name"
             ref={this.inputLastName}
             onChange={() => {
               this.handleNameChange(this.inputLastName);
             }}
           />
+          <div className="valid-feedback">Looks good!</div>
+          <div className="invalid-feedback">Please provide a last name.</div>
         </div>
         <fieldset>
           <legend>Phones</legend>
