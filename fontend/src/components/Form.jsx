@@ -5,24 +5,30 @@ class Form extends Component {
     super(props);
 
     this.state = {
-      firstName: false
+      firstName: null
     };
 
     this.inputFirstName = React.createRef();
+    this.inputLastName = React.createRef();
   }
 
-  handleNameChange = () => {
-    const firstName = this.inputFirstName.current;
+  handleNameChange = element => {
+    const name = element.current;
 
-    if (firstName.value.length > 1) {
-      // only save the value if it is valid
+    if (name.value.length > 1) {
+      name.classList.add("is-valid");
       this.setState({
-        firstName: firstName.value
+        firstName: name.value // only save the value if it is valid
       });
-      // fix is-valid class deleted after input backspaces
+      // make it a toggle
+      if (name.classList.contains("is-invalid")) {
+        name.classList.remove("is-invalid");
+        name.classList.add("is-valid");
+      }
     } else {
-      if (firstName.classList.contains("is-valid")) {
-        firstName.classList.remove("is-valid");
+      if (name.classList.contains("is-valid")) {
+        name.classList.remove("is-valid");
+        name.classList.add("is-invalid");
       }
     }
   };
@@ -39,11 +45,13 @@ class Form extends Component {
           <label htmlFor="first_name">First name</label>
           <input
             type="text"
-            className={`form-control ${this.state.firstName ? "is-valid" : ""}`}
+            className="form-control"
             id="first_name"
             placeholder="Type First Name"
-            onChange={this.handleNameChange}
             ref={this.inputFirstName}
+            onChange={() => {
+              this.handleNameChange(this.inputFirstName);
+            }}
             required
             autoFocus
           />
@@ -57,7 +65,10 @@ class Form extends Component {
             className="form-control"
             id="first_name"
             placeholder="Type Last Name"
-            // ref={this.inputFirstName}
+            ref={this.inputLastName}
+            onChange={() => {
+              this.handleNameChange(this.inputLastName);
+            }}
           />
         </div>
         <fieldset>
