@@ -12,6 +12,8 @@ class Form extends Component {
     this.inputFirstName = React.createRef();
     this.inputLastName = React.createRef();
     this.inputPhoneType = React.createRef();
+    this.inputPhoneCountryCode = React.createRef();
+    this.inputPhoneNumber = React.createRef();
   }
 
   handleNameChange = element => {
@@ -35,6 +37,27 @@ class Form extends Component {
     } else {
       this.checkIfValid(element);
     }
+  };
+
+  handlePhoneChange = element => {
+    const field = element.current.name;
+
+    // if (typeof element.current.value == "number") {
+    this.setState(state => ({
+      data: {
+        phones: {
+          ...state.data.phones,
+          [field]: element.current.value
+        }
+      },
+      validation: {
+        ...state.validation,
+        [field]: true
+      }
+    }));
+    // }
+    // if 2 phones fields are valid >> whole phone entry valid, done!
+    // what's the best method to check & validate phone entries, incl. country code?
   };
 
   checkIfInvalid = element => {
@@ -73,20 +96,6 @@ class Form extends Component {
       element.current.classList.add("is-invalid");
       element.current.classList.remove("is-valid");
     }
-  };
-
-  saveAndValidate = element => {
-    const field = element.current.name;
-    this.setState(state => ({
-      data: {
-        ...state.data,
-        [field]: element.current.value
-      },
-      validation: {
-        ...state.validation,
-        [field]: true
-      }
-    }));
   };
 
   render() {
@@ -141,7 +150,7 @@ class Form extends Component {
                 className="custom-select"
                 ref={this.inputPhoneType}
                 onChange={() => {
-                  this.saveAndValidate(this.inputPhoneType); // only need to update state for select elements
+                  this.handlePhoneChange(this.inputPhoneType); // only need to update state for select elements
                 }}
                 required
               >
@@ -161,14 +170,24 @@ class Form extends Component {
               className="form-control"
               pattern="[+][0-9]{2}"
               placeholder="Country Code"
+              ref={this.inputPhoneCountryCode}
+              onChange={() => {
+                this.handlePhoneChange(this.inputPhoneCountryCode); // only need to update state for select elements
+              }}
+
               // ref={this.inputFirstName}
             />
             <input
               type="tel"
-              className="form-control"
               id="phone_number"
+              name="number"
+              className="form-control"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               placeholder="Phone Number"
+              ref={this.inputPhoneNumber}
+              onChange={() => {
+                this.handlePhoneChange(this.inputPhoneNumber); // only need to update state for select elements
+              }}
               // ref={this.inputFirstName}
             />
           </div>
