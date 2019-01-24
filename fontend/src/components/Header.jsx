@@ -4,7 +4,7 @@ class Header extends Component {
   render() {
     return (
       <div className="">
-        <h1>Add conctact</h1>
+        <h1>New Contact</h1>
       </div>
     );
   }
