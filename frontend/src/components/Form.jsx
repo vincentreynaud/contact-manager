@@ -5,71 +5,89 @@ class Form extends Component {
     super(props);
 
     this.state = {
-      data: {
-        contact: {
-          firstName: null
-        }
-      },
-      validation: {
-        firstName: null
-      }
+      data: {},
+      validation: {}
     };
 
     this.inputFirstName = React.createRef();
     this.inputLastName = React.createRef();
+    this.inputPhoneType = React.createRef();
   }
 
   handleNameChange = element => {
-    element = element.current;
-    const field = element.name;
+    const field = element.current.name;
 
-    if (element.value.length > 1) {
+    if (element.current.value.length > 1) {
+      element.current.classList.add("is-valid");
       this.setState(state => ({
-        // only save the value if it is valid
         data: {
-          ...state.data,
-          [field]: element.value
+          contact: {
+            ...state.data.contact,
+            [field]: element.current.value
+          }
         },
         validation: {
           ...state.validation,
           [field]: true
         }
       }));
-
-      element.classList.add("is-valid");
-
-      if (this.state.validation[field] === false) {
-        this.setState(state => ({
-          validation: {
-            ...state.validation,
-            [field]: true
-          }
-        }));
-
-        this.toggleValidationClass(element);
-      }
+      this.checkIfInvalid(element);
     } else {
-      if (this.state.validation[field] === true) {
-        this.setState(state => ({
-          validation: {
-            ...state.validation,
-            [field]: false
-          }
-        }));
-        this.toggleValidationClass(element);
-      }
+      this.checkIfValid(element);
     }
   };
 
-  toggleValidationClass(element) {
-    if (element.classList.contains("is-invalid")) {
-      element.classList.add("is-valid");
-      element.classList.remove("is-invalid"); // make it a toggle?
-    } else {
-      element.classList.add("is-invalid");
-      element.classList.remove("is-valid");
+  checkIfInvalid = element => {
+    const field = element.current.name;
+    if (this.state.validation[field] === false) {
+      this.setState(state => ({
+        validation: {
+          ...state.validation,
+          [field]: true
+        }
+      }));
+
+      this.toggleValidationClass(element);
     }
-  }
+  };
+
+  checkIfValid = element => {
+    const field = element.current.name;
+
+    if (this.state.validation[field] === true) {
+      this.setState(state => ({
+        validation: {
+          ...state.validation,
+          [field]: false
+        }
+      }));
+      this.toggleValidationClass(element);
+    }
+  };
+
+  toggleValidationClass = element => {
+    if (element.current.classList.contains("is-invalid")) {
+      element.current.classList.add("is-valid");
+      element.current.classList.remove("is-invalid"); // make it a toggle?
+    } else {
+      element.current.classList.add("is-invalid");
+      element.current.classList.remove("is-valid");
+    }
+  };
+
+  saveAndValidate = element => {
+    const field = element.current.name;
+    this.setState(state => ({
+      data: {
+        ...state.data,
+        [field]: element.current.value
+      },
+      validation: {
+        ...state.validation,
+        [field]: true
+      }
+    }));
+  };
 
   render() {
     return (
@@ -117,18 +135,30 @@ class Form extends Component {
           <legend>Phones</legend>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
-              <select className="custom-select" id="phone_type" required>
-                <option defaultValue>Type...</option>
+              <select
+                id="phone_type"
+                name="type"
+                className="custom-select"
+                ref={this.inputPhoneType}
+                onChange={() => {
+                  this.saveAndValidate(this.inputPhoneType); // only need to update state for select elements
+                }}
+                required
+              >
+                <option defaultValue value="home">
+                  Home
+                </option>
                 <option value="mobile">Mobile</option>
-                <option value="home">Home</option>
                 <option value="work">Work</option>
+                <option value="main">Main</option>
+                <option value="other">Other</option>
               </select>
             </div>
             <input
               type="tel"
-              className="form-control"
               id="phone_country_code"
-              name="phone"
+              name="country_code"
+              className="form-control"
               pattern="[+][0-9]{2}"
               placeholder="Country Code"
               // ref={this.inputFirstName}
