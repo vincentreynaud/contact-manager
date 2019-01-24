@@ -5,24 +5,41 @@ class Form extends Component {
     super(props);
 
     this.state = {
-      firstName: false
+      data: {
+        contact: {
+          firstName: null
+        }
+      },
+      validation: {
+        firstName: null
+      }
     };
 
     this.inputFirstName = React.createRef();
+    this.inputLastName = React.createRef();
   }
 
-  handleNameChange = () => {
-    const firstName = this.inputFirstName.current;
+  handleNameChange = element => {
+    const name = element.current;
 
-    if (firstName.value.length > 1) {
-      // only save the value if it is valid
+    if (name.value.length > 1) {
       this.setState({
-        firstName: firstName.value
+        data: { firstName: name.value }, // only save the value if it is valid
+        validation: { firstName: true }
       });
-      // fix is-valid class deleted after input backspaces
+
+      name.classList.add("is-valid");
+
+      if (this.state.validation.firstName === false) {
+        this.setState({ validation: { firstName: true } });
+        name.classList.remove("is-invalid"); // make it a toggle?
+        name.classList.add("is-valid");
+      }
     } else {
-      if (firstName.classList.contains("is-valid")) {
-        firstName.classList.remove("is-valid");
+      if (this.state.validation.firstName === true) {
+        this.setState({ validation: { firstName: false } });
+        name.classList.remove("is-valid");
+        name.classList.add("is-invalid");
       }
     }
   };
@@ -39,11 +56,13 @@ class Form extends Component {
           <label htmlFor="first_name">First name</label>
           <input
             type="text"
-            className={`form-control ${this.state.firstName ? "is-valid" : ""}`}
+            className="form-control"
             id="first_name"
             placeholder="Type First Name"
-            onChange={this.handleNameChange}
             ref={this.inputFirstName}
+            onChange={() => {
+              this.handleNameChange(this.inputFirstName);
+            }}
             required
             autoFocus
           />
@@ -57,7 +76,10 @@ class Form extends Component {
             className="form-control"
             id="first_name"
             placeholder="Type Last Name"
-            // ref={this.inputFirstName}
+            ref={this.inputLastName}
+            onChange={() => {
+              this.handleNameChange(this.inputLastName);
+            }}
           />
         </div>
         <fieldset>
