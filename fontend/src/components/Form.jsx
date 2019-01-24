@@ -1,21 +1,57 @@
 import React, { Component } from "react";
 
 class Form extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      firstName: false
+    };
+
+    this.inputFirstName = React.createRef();
+  }
+
+  handleNameChange = () => {
+    const firstName = this.inputFirstName.current;
+
+    if (firstName.value.length > 1) {
+      // only save the value if it is valid
+      this.setState({
+        firstName: firstName.value
+      });
+      // fix is-valid class deleted after input backspaces
+    } else {
+      if (firstName.classList.contains("is-valid")) {
+        firstName.classList.remove("is-valid");
+      }
+    }
+  };
+
   render() {
     return (
-      <form className="w-50">
+      <form
+        className="w-50"
+        onSubmit={this.props.handleSubmit}
+        noValidate={true}
+      >
+        {/* noValidate disables the browser default feedback tooltips */}
         <div className="form-group">
-          <label for="first_name">First name</label>
+          <label htmlFor="first_name">First name</label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${this.state.firstName ? "is-valid" : ""}`}
             id="first_name"
             placeholder="Type First Name"
-            // ref={this.inputFirstName}
+            onChange={this.handleNameChange}
+            ref={this.inputFirstName}
+            required
+            autoFocus
           />
+          <div className="valid-feedback">Looks good!</div>
+          <div className="invalid-feedback">Please provide a first name.</div>
         </div>
         <div className="form-group">
-          <label for="last_name">Last name</label>
+          <label htmlFor="last_name">Last name</label>
           <input
             type="text"
             className="form-control"
@@ -27,9 +63,9 @@ class Form extends Component {
         <fieldset>
           <legend>Phones</legend>
           <div className="input-group mb-3">
-            <div class="input-group-prepend">
-              <select class="custom-select" id="phone_type" required>
-                <option selected>Type...</option>
+            <div className="input-group-prepend">
+              <select className="custom-select" id="phone_type" required>
+                <option defaultValue>Type...</option>
                 <option value="mobile">Mobile</option>
                 <option value="home">Home</option>
                 <option value="work">Work</option>
@@ -57,9 +93,9 @@ class Form extends Component {
         <fieldset>
           <legend>Emails</legend>
           <div className="input-group mb-3">
-            <div class="input-group-prepend">
-              <select class="custom-select" id="email_type" required>
-                <option selected>Type...</option>
+            <div className="input-group-prepend">
+              <select className="custom-select" id="email_type" required>
+                <option defaultValue>Type...</option>
                 <option value="home">Home</option>
                 <option value="work">Work</option>
                 <option value="other">Other</option>
@@ -76,6 +112,9 @@ class Form extends Component {
             />
           </div>
         </fieldset>
+        <button type="submit" className="btn btn-primary">
+          Add Contact
+        </button>
       </form>
     );
   }
