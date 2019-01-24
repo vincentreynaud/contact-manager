@@ -24,26 +24,52 @@ class Form extends Component {
     const field = element.name;
 
     if (element.value.length > 1) {
-      this.setState({
-        data: { [field]: element.value }, // only save the value if it is valid
-        validation: { [field]: true }
-      });
+      this.setState(state => ({
+        // only save the value if it is valid
+        data: {
+          ...state.data,
+          [field]: element.value
+        },
+        validation: {
+          ...state.validation,
+          [field]: true
+        }
+      }));
 
       element.classList.add("is-valid");
 
       if (this.state.validation[field] === false) {
-        this.setState({ validation: { [field]: true } });
-        element.classList.remove("is-invalid"); // make it a toggle?
-        element.classList.add("is-valid");
+        this.setState(state => ({
+          validation: {
+            ...state.validation,
+            [field]: true
+          }
+        }));
+
+        this.toggleValidationClass(element);
       }
     } else {
       if (this.state.validation[field] === true) {
-        this.setState({ validation: { [field]: false } });
-        element.classList.remove("is-valid");
-        element.classList.add("is-invalid");
+        this.setState(state => ({
+          validation: {
+            ...state.validation,
+            [field]: false
+          }
+        }));
+        this.toggleValidationClass(element);
       }
     }
   };
+
+  toggleValidationClass(element) {
+    if (element.classList.contains("is-invalid")) {
+      element.classList.add("is-valid");
+      element.classList.remove("is-invalid"); // make it a toggle?
+    } else {
+      element.classList.add("is-invalid");
+      element.classList.remove("is-valid");
+    }
+  }
 
   render() {
     return (
