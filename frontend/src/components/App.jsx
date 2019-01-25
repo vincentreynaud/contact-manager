@@ -49,7 +49,7 @@ class App extends Component {
     this.setState(state => ({
       validation: {
         ...state.validation,
-        [element.name]: validation
+        [element.id]: validation
       }
     }));
   };

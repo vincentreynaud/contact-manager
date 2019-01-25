@@ -28,16 +28,23 @@ class Form extends Component {
   handlePhoneChange = e => {
     switch (e.target.id) {
       case "phone_type":
-        console.log("type");
+        this.props.setPhone(e.target);
+        e.target.classList.add("is-valid");
         break;
       case "phone_country_code":
-        console.log("cc");
+        if (e.target.value.match(/^\d{4}/)) {
+          e.target.classList.add("is-valid");
+          this.props.setPhone(e.target);
+          this.checkIfInvalid(e.target); // trigger invalid at first letter
+        } else {
+          this.checkIfValid(e.target);
+        }
         break;
       case "phone_number":
         if (e.target.value.match(/^\d{10}/)) {
           e.target.classList.add("is-valid");
           this.props.setPhone(e.target);
-          this.checkIfInvalid(e.target);
+          this.checkIfInvalid(e.target); // trigger invalid at first letter
         } else {
           this.checkIfValid(e.target);
         }
@@ -45,7 +52,6 @@ class Form extends Component {
       default:
         console.log("try again");
     }
-    // if 2 phones fields are valid >> whole phone entry valid, done!
     // what's the best method to check & validate phone entries, incl. country code?
   };
 
@@ -110,9 +116,7 @@ class Form extends Component {
           <div className="input-group mb-3" onChange={this.handlePhoneChange}>
             <div className="input-group-prepend">
               <select id="phone_type" name="type" className="custom-select">
-                <option defaultValue value="home">
-                  Home
-                </option>
+                <option defaultValue="home">Home</option>
                 <option value="mobile">Mobile</option>
                 <option value="work">Work</option>
                 <option value="main">Main</option>
@@ -124,7 +128,7 @@ class Form extends Component {
               id="phone_country_code"
               name="country_code"
               className="form-control"
-              pattern="[+][0-9]{2}"
+              pattern="[+][0-9]{2}" // how to activate this pattern????
               placeholder="Country Code"
             />
             <input
