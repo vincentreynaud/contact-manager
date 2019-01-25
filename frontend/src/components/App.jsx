@@ -21,9 +21,9 @@ class App extends Component {
 
   setName = element => {
     this.setValidation(element, true);
-    element = element.current; // find a better way!
     this.setState(state => ({
       data: {
+        ...state.data,
         contact: {
           ...state.data.contact,
           [element.name]: element.value
@@ -32,8 +32,20 @@ class App extends Component {
     }));
   };
 
+  setPhone = element => {
+    this.setValidation(element, true);
+    this.setState(state => ({
+      data: {
+        ...state.data,
+        phones: {
+          ...state.data.phones,
+          [element.name]: element.value
+        }
+      }
+    }));
+  };
+
   setValidation = (element, validation) => {
-    element = element.current;
     this.setState(state => ({
       validation: {
         ...state.validation,
@@ -51,6 +63,7 @@ class App extends Component {
           validation={this.state.validation}
           setValidation={this.setValidation}
           setName={this.setName}
+          setPhone={this.setPhone}
         />
       </div>
     );
