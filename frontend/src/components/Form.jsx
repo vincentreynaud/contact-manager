@@ -7,6 +7,20 @@ class Form extends Component {
   inputPhoneCountryCode = React.createRef();
   inputPhoneNumber = React.createRef();
 
+  handleSubmit = e => {
+    e.preventDefault();
+    fetch("http://localhost:3000/contacts", {
+      method: "POST",
+      body: JSON.stringify(this.props.data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(response => console.log("Success:", response))
+      .catch(error => console.error("Error:", error));
+  };
+
   handleNameChange = element => {
     if (element.current.value.length > 1) {
       element.current.classList.add("is-valid");
@@ -16,28 +30,6 @@ class Form extends Component {
       this.checkIfValid(element);
     }
   };
-
-  /*
-  handlePhoneChange = element => {
-    const field = element.current.name;
-
-    // if (typeof element.current.value == "number") {
-    this.setState(state => ({
-      data: {
-        phones: {
-          ...state.data.phones,
-          [field]: element.current.value
-        }
-      },
-      validation: {
-        ...state.validation,
-        [field]: true
-      }
-    }));
-    // }
-    // if 2 phones fields are valid >> whole phone entry valid, done!
-    // what's the best method to check & validate phone entries, incl. country code?
-  };*/
 
   checkIfInvalid = element => {
     const field = element.current.name;
@@ -69,7 +61,7 @@ class Form extends Component {
 
   render() {
     return (
-      <form className="" onSubmit={this.props.handleSubmit} noValidate={true}>
+      <form className="" onSubmit={this.handleSubmit} noValidate={true}>
         {/* noValidate disables the browser default feedback tooltips */}
         <div className="form-group">
           <label htmlFor="first_name">First name</label>
@@ -188,3 +180,25 @@ class Form extends Component {
 }
 
 export default Form;
+
+/*
+  handlePhoneChange = element => {
+    const field = element.current.name;
+
+    // if (typeof element.current.value == "number") {
+    this.setState(state => ({
+      data: {
+        phones: {
+          ...state.data.phones,
+          [field]: element.current.value
+        }
+      },
+      validation: {
+        ...state.validation,
+        [field]: true
+      }
+    }));
+    // }
+    // if 2 phones fields are valid >> whole phone entry valid, done!
+    // what's the best method to check & validate phone entries, incl. country code?
+  };*/

@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import Header from "./Header";
 import Form from "./Form";
 
+/**
+ * Improvements:
+ * 1. Store input data to the localStorage
+ * 2.
+ *
+ */
+
 class App extends Component {
   constructor(props) {
     super(props);
