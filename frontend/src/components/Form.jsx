@@ -1,44 +1,23 @@
 import React, { Component } from "react";
 
 class Form extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: {},
-      validation: {}
-    };
-
-    this.inputFirstName = React.createRef();
-    this.inputLastName = React.createRef();
-    this.inputPhoneType = React.createRef();
-    this.inputPhoneCountryCode = React.createRef();
-    this.inputPhoneNumber = React.createRef();
-  }
+  inputFirstName = React.createRef();
+  inputLastName = React.createRef();
+  inputPhoneType = React.createRef();
+  inputPhoneCountryCode = React.createRef();
+  inputPhoneNumber = React.createRef();
 
   handleNameChange = element => {
-    const field = element.current.name;
-
     if (element.current.value.length > 1) {
       element.current.classList.add("is-valid");
-      this.setState(state => ({
-        data: {
-          contact: {
-            ...state.data.contact,
-            [field]: element.current.value
-          }
-        },
-        validation: {
-          ...state.validation,
-          [field]: true
-        }
-      }));
+      this.props.setName(element);
       this.checkIfInvalid(element);
     } else {
       this.checkIfValid(element);
     }
   };
 
+  /*
   handlePhoneChange = element => {
     const field = element.current.name;
 
@@ -58,18 +37,13 @@ class Form extends Component {
     // }
     // if 2 phones fields are valid >> whole phone entry valid, done!
     // what's the best method to check & validate phone entries, incl. country code?
-  };
+  };*/
 
   checkIfInvalid = element => {
     const field = element.current.name;
-    if (this.state.validation[field] === false) {
-      this.setState(state => ({
-        validation: {
-          ...state.validation,
-          [field]: true
-        }
-      }));
 
+    if (this.props.validation[field] === false) {
+      this.props.setValidation(element, true);
       this.toggleValidationClass(element);
     }
   };
@@ -77,13 +51,8 @@ class Form extends Component {
   checkIfValid = element => {
     const field = element.current.name;
 
-    if (this.state.validation[field] === true) {
-      this.setState(state => ({
-        validation: {
-          ...state.validation,
-          [field]: false
-        }
-      }));
+    if (this.props.validation[field] === true) {
+      this.props.setValidation(element, false);
       this.toggleValidationClass(element);
     }
   };
@@ -100,11 +69,7 @@ class Form extends Component {
 
   render() {
     return (
-      <form
-        className="w-50"
-        onSubmit={this.props.handleSubmit}
-        noValidate={true}
-      >
+      <form className="" onSubmit={this.props.handleSubmit} noValidate={true}>
         {/* noValidate disables the browser default feedback tooltips */}
         <div className="form-group">
           <label htmlFor="first_name">First name</label>
