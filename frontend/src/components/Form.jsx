@@ -3,6 +3,7 @@ import React, { Component } from "react";
 class Form extends Component {
   handleSubmit = e => {
     e.preventDefault();
+    // run isValid functions
     fetch("http://localhost:3000/contacts", {
       method: "POST",
       body: JSON.stringify(this.props.data),
@@ -41,7 +42,9 @@ class Form extends Component {
         }
         break;
       case "phone_number":
-        if (e.target.value.match(/^\d{10}/)) {
+        if (
+          e.target.value.match(/^([a-z0-9_.-]+)@([\da-z.-]+)\.([a-z.]{2,6})$/)
+        ) {
           e.target.classList.add("is-valid");
           this.props.setPhone(e.target);
           this.checkIfInvalid(e.target); // trigger invalid at first letter
@@ -59,6 +62,7 @@ class Form extends Component {
     if (this.props.validation[element.name] === false) {
       this.props.setValidation(element, true);
       this.toggleValidationClass(element);
+      // disable submit
     }
   };
 
