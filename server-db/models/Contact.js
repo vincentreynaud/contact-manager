@@ -58,10 +58,10 @@ const ContactSchema = new Schema(
       required: true
     },
     company: String,
-    phones: [...PhoneSchema],
-    emails: [...EmailSchema],
-    addresses: [...AddressSchema],
-    url: [...UrlSchema]
+    phones: [PhoneSchema],
+    emails: [EmailSchema],
+    addresses: [AddressSchema],
+    url: [UrlSchema]
   })
 );
 
